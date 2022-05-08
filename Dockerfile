@@ -7,6 +7,8 @@ ARG OPENMP=1
 
 RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf && rm /etc/yum.repos.d/*modular*
 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 # Some convinient tools
 RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs vim nano sudo diffutils git && dnf clean all
 
