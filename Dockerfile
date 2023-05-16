@@ -28,6 +28,7 @@ RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapsho
  && make install \
  && make check \
  && rm -r /petsc-$VER/ \
+ && find /opt -name *.a -delete \
  && (test ".$TYPE" != ".mini" || rm -rf /opt/petsc/share/petsc/examples )
 # test is really slow
 # && make test \
