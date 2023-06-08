@@ -5,17 +5,11 @@ ARG TYPE=minimal
 ARG PETSC_VERSION=3.16.4
 ARG OPENMP=1
 
-RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf && rm /etc/yum.repos.d/*modular*
-
+RUN rm /etc/yum.repos.d/*modular* && test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
+# 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Some convinient tools
-RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs vim nano sudo diffutils git && dnf clean all
-
-# BOUT++ deps
-RUN dnf -y install netcdf-devel netcdf-cxx4-devel hdf5-devel fftw-devel cmake python3-numpy python3-Cython python3-netcdf4 python3-scipy python3-boututils python3-boutdata flexiblas-devel gcc-c++ mpark-variant-devel python3-jinja2 petsc-$MPI-devel hdf5-$MPI-devel sundials-$MPI-devel sundials-devel git-core bison flex diffutils fakeroot && dnf clean all
-
-
+# Set ENV vars
 RUN echo -e "MPI_BIN=/usr/lib64/$MPI/bin\n\
 MPI_SYSCONFIG=/etc/$MPI-x86_64\n\
 MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/$MPI\n\
@@ -26,7 +20,7 @@ MPI_PYTHON_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI\n\
 MPI_PYTHON3_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI\n\
 MPI_COMPILER=$MPI-x86_64\n\
 MPI_SUFFIX=_$MPI\n\
-MPI_HOME=/usr/lib64/$MPI" >> /etc/environmnet \
+MPI_HOME=/usr/lib64/$MPI" >> /etc/environment \
   && . /etc/environment && \
   echo -e 'PATH=$MPI_BIN:$PATH\n\
     LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH\n\
@@ -39,6 +33,14 @@ RUN bash -c '. /etc/profile ; echo $PATH ; echo \$PATH'
 RUN bash -c '. /etc/profile.d/bout.sh ; echo $PATH ; echo \$PATH'
 RUN cat /etc/environment
 RUN exit 1
+
+# Some convinient tools
+RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs vim nano sudo diffutils git && dnf clean all
+
+# BOUT++ deps
+RUN dnf -y install netcdf-devel netcdf-cxx4-devel hdf5-devel fftw-devel cmake python3-numpy python3-Cython python3-netcdf4 python3-scipy python3-boututils python3-boutdata flexiblas-devel gcc-c++ mpark-variant-devel python3-jinja2 petsc-$MPI-devel hdf5-$MPI-devel sundials-$MPI-devel sundials-devel git-core bison flex diffutils fakeroot && dnf clean all
+
+
 
 # PETSc
 RUN export OMPI_ALLOW_RUN_AS_ROOT=1 OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
