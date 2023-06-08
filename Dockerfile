@@ -47,6 +47,7 @@ ENV PATH=$MPI_BIN:$PATH \
 # PETSc
 RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
  && tar -xf petsc-lite-$VER.tar.gz \
+ && sudo mkdir -p  /opt/petsc && sudo chown boutuser /opt/petsc \
  && cd petsc-$VER/ \
  && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
     --download-mumps=1 --download-scalapack=1 --download-blacs=1 --download-fblas-lapack=1 --download-hypre=1 \
@@ -57,7 +58,9 @@ RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapsho
  && make check \
  && rm -r /petsc-$VER/ \
  && find /opt -name *.a -delete \
- && (test ".$TYPE" != ".mini" || rm -rf /opt/petsc/share/petsc/examples )
+ && (test ".$TYPE" != ".mini" || rm -rf /opt/petsc/share/petsc/examples ) \
+ && sudo chown root -R /opt/petsc
+
 # test is really slow
 # && make test \
 
