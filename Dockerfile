@@ -41,7 +41,7 @@ RUN cat /etc/environment
 RUN exit 1
 
 # PETSc
-RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
+RUN export OMPI_ALLOW_RUN_AS_ROOT=1 OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
  && tar -xf petsc-lite-$VER.tar.gz \
  && cd petsc-$VER/ \
  && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
