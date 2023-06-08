@@ -16,26 +16,28 @@ RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs
 RUN dnf -y install netcdf-devel netcdf-cxx4-devel hdf5-devel fftw-devel cmake python3-numpy python3-Cython python3-netcdf4 python3-scipy python3-boututils python3-boutdata flexiblas-devel gcc-c++ mpark-variant-devel python3-jinja2 petsc-$MPI-devel hdf5-$MPI-devel sundials-$MPI-devel sundials-devel git-core bison flex diffutils fakeroot && dnf clean all
 
 
-RUN echo "export MPI_BIN=/usr/lib64/$MPI/bin MPI_SYSCONFIG=/etc/$MPI-x86_64 \
-MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/$MPI \
-MPI_INCLUDE=/usr/include/$MPI-x86_64 \
-MPI_LIB=/usr/lib64/$MPI/lib \
-MPI_MAN=/usr/share/man/$MPI-x86_64 \
-MPI_PYTHON_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI \
-MPI_PYTHON3_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI \
-MPI_COMPILER=$MPI-x86_64 \
-MPI_SUFFIX=_$MPI \
-MPI_HOME=/usr/lib64/$MPI" > /etc/profile.d/bout.sh \
-  && echo 'export PATH=$MPI_BIN:$PATH \
-    LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH \
-    PKG_CONFIG_PATH=$MPI_LIB/pkgconfig:$PKG_CONFIG_PATH \
-    MANPATH=$MPI_MAN:$MANPATH' >> /etc/profile.d/bout.sh
+RUN echo -e "MPI_BIN=/usr/lib64/$MPI/bin\n\
+MPI_SYSCONFIG=/etc/$MPI-x86_64\n\
+MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/$MPI\n\
+MPI_INCLUDE=/usr/include/$MPI-x86_64\n\
+MPI_LIB=/usr/lib64/$MPI/lib\n\
+MPI_MAN=/usr/share/man/$MPI-x86_64\n\
+MPI_PYTHON_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI\n\
+MPI_PYTHON3_SITEARCH=$(ls -d /usr/lib64/python3.*/site-packages)/$MPI\n\
+MPI_COMPILER=$MPI-x86_64\n\
+MPI_SUFFIX=_$MPI\n\
+MPI_HOME=/usr/lib64/$MPI" >> /etc/environmnet \
+  && . /etc/environment && \
+  echo -e 'PATH=$MPI_BIN:$PATH\n\
+    LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH\n\
+    PKG_CONFIG_PATH=$MPI_LIB/pkgconfig:$PKG_CONFIG_PATH\n\
+    MANPATH=$MPI_MAN:$MANPATH' >> /etc/environment
 
 RUN echo $PATH
 RUN bash -c 'echo $PATH ; echo \$PATH'
 RUN bash -c '. /etc/profile ; echo $PATH ; echo \$PATH'
 RUN bash -c '. /etc/profile.d/bout.sh ; echo $PATH ; echo \$PATH'
-RUN cat /etc/profile.d/bout.sh
+RUN cat /etc/environment
 RUN exit 1
 
 # PETSc
