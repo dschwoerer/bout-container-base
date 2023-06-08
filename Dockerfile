@@ -16,6 +16,25 @@ RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs
 RUN dnf -y install netcdf-devel netcdf-cxx4-devel hdf5-devel fftw-devel cmake python3-numpy python3-Cython python3-netcdf4 python3-scipy python3-boututils python3-boutdata flexiblas-devel gcc-c++ mpark-variant-devel python3-jinja2 petsc-$MPI-devel hdf5-$MPI-devel sundials-$MPI-devel sundials-devel git-core bison flex diffutils fakeroot && dnf clean all
 
 
+ENV MPI_BIN=/usr/lib64/$MPI/bin \
+    MPI_SYSCONFIG=/etc/$MPI-x86_64 \
+    MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/$MPI \
+    MPI_INCLUDE=/usr/include/$MPI-x86_64 \
+    MPI_LIB=/usr/lib64/$MPI/lib \
+    MPI_MAN=/usr/share/man/$MPI-x86_64 \
+    MPI_PYTHON_SITEARCH=/usr/lib64/python3.11/site-packages/$MPI \
+    MPI_PYTHON3_SITEARCH=/usr/lib64/python3.11/site-packages/$MPI \
+    MPI_COMPILER=$MPI-x86_64 \
+    MPI_SUFFIX=_$MPI \
+    MPI_HOME=/usr/lib64/$MPI
+
+
+ENV PATH=$MPI_BIN:$PATH \
+    LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH \
+    PKG_CONFIG_PATH=$MPI_LIB/pkgconfig:$PKG_CONFIG_PATH \
+    MANPATH=$MPI_MAN:$MANPATH
+
+
 # PETSc
 RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
  && tar -xf petsc-lite-$VER.tar.gz \
