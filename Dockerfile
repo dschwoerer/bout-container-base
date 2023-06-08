@@ -32,7 +32,8 @@ MPI_HOME=/usr/lib64/$MPI" > /etc/profile.d/bout.sh \
     MANPATH=$MPI_MAN:$MANPATH' >> /etc/profile.d/bout.sh
 
 RUN echo $PATH
-
+RUN bash -c 'echo $PATH ; echo \$PATH'
+RUN exit 1
 
 # PETSc
 RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
