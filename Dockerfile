@@ -29,8 +29,7 @@ MANPATH=$MPI_MAN:$MANPATH" >> /etc/environment
 
 RUN echo $PATH
 RUN bash -c 'echo $PATH ; echo \$PATH'
-RUN bash -c '. /etc/profile ; echo $PATH ; echo \$PATH'
-RUN bash -c '. /etc/profile.d/bout.sh ; echo $PATH ; echo \$PATH'
+RUN bash -c '. /etc/environment ; echo $PATH ; echo \$PATH ; echo ${PATH}'
 RUN cat /etc/environment
 RUN exit 1
 
