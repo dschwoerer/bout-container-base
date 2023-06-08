@@ -33,6 +33,9 @@ MPI_HOME=/usr/lib64/$MPI" > /etc/profile.d/bout.sh \
 
 RUN echo $PATH
 RUN bash -c 'echo $PATH ; echo \$PATH'
+RUN bash -c '. /etc/profile ; echo $PATH ; echo \$PATH'
+RUN bash -c '. /etc/profile.d/bout.sh ; echo $PATH ; echo \$PATH'
+RUN cat /etc/profile.d/bout.sh
 RUN exit 1
 
 # PETSc

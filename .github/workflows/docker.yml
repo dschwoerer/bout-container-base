@@ -22,12 +22,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        mpi: [mpich, openmpi]
-        type: [full, mini]
+        mpi: [mpich]
+        type: [mini]
         config:
-          - name: "With openmp"
-            openmp: 1
-            prefix: "openmp-"
           - name: "Without openmp"
             openmp: 0
             prefix: ""
