@@ -22,10 +22,10 @@ MPI_COMPILER=$MPI-x86_64\n\
 MPI_SUFFIX=_$MPI\n\
 MPI_HOME=/usr/lib64/$MPI" >> /etc/environment \
   && . /etc/environment && \
-  echo -e 'PATH=$MPI_BIN:$PATH\n\
-    LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH\n\
-    PKG_CONFIG_PATH=$MPI_LIB/pkgconfig:$PKG_CONFIG_PATH\n\
-    MANPATH=$MPI_MAN:$MANPATH' >> /etc/environment
+  echo -e "PATH=$MPI_BIN:$PATH\n\
+LD_LIBRARY_PATH=$MPI_LIB:$LD_LIBRARY_PATH\n\
+PKG_CONFIG_PATH=$MPI_LIB/pkgconfig:$PKG_CONFIG_PATH\n\
+MANPATH=$MPI_MAN:$MANPATH" >> /etc/environment
 
 RUN echo $PATH
 RUN bash -c 'echo $PATH ; echo \$PATH'
