@@ -15,6 +15,15 @@ RUN test ".$TYPE" = ".mini" || dnf -y install dnf-plugins-core python3-pip emacs
 # BOUT++ deps
 RUN dnf -y install netcdf-devel netcdf-cxx4-devel hdf5-devel fftw-devel cmake python3-numpy python3-Cython python3-netcdf4 python3-scipy python3-boututils python3-boutdata flexiblas-devel gcc-c++ mpark-variant-devel python3-jinja2 petsc-$MPI-devel hdf5-$MPI-devel sundials-$MPI-devel sundials-devel git-core bison flex diffutils fakeroot && dnf clean all
 
+RUN useradd boutuser -G wheel -p '$6$MoHfQDiMU5ajgDMm$9FAMLxMflKwQCZ.sJBNG6wLGnPeySVizdA8wN0k8LSXKPkCfOb/sM9Y4jKFvh5rzKSwLtYSTzvJyETqrFlxBV.'
+
+RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# user: boutuser
+# password: boutforever
+USER boutuser
+WORKDIR /home/boutuser
+
 
 ENV MPI_BIN=/usr/lib64/$MPI/bin \
     MPI_SYSCONFIG=/etc/$MPI-x86_64 \
