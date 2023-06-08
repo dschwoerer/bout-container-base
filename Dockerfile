@@ -39,7 +39,7 @@ ENV PATH=$MPI_BIN:$PATH \
 RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
  && tar -xf petsc-lite-$VER.tar.gz \
  && cd petsc-$VER/ \
- && /usr/bin/python3 ./configure --with-clanguage=cxx --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
+ && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
     --download-mumps=1 --download-scalapack=1 --download-blacs=1 --download-fblas-lapack=1 --download-hypre=1 \
     --download-parmetis=1 --download-ptscotch=1 --download-metis=1 --with-openmp=$OPENMP --with-debugging=0 --prefix=/opt/petsc \
     --with-python-exec=/usr/bin/python3 --with-mpi-dir=/usr/lib64/$MPI --with-blas-lib=flexiblas --with-lapack-lib=flexiblas\
