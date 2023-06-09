@@ -15,6 +15,7 @@ jobs:
   build:
     name: Build container image
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     permissions:
       contents: read
       packages: write
@@ -57,7 +58,7 @@ jobs:
             MPI=${{ matrix.mpi }}
             TYPE=${{ matrix.type }}
             OPENMP=${{ matrix.config.openmp }}
-            PETSC_VERSION=3.19.1
+            PETSC_VERSION=3.17.1
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
