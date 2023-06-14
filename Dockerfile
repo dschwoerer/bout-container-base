@@ -55,12 +55,12 @@ RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapsho
     --with-python-exec=/usr/bin/python3 --with-mpi-dir=/usr/lib64/$MPI --with-blas-lib=flexiblas --with-lapack-lib=flexiblas\
  && make all \
  && make install \
- && make check \
  && find /opt -name *.a -delete \
  && (test ".$TYPE" != ".mini" || rm -rf /opt/petsc/share/petsc/examples ) \
  && sudo chown root -R /opt/petsc \
  && cd .. && rm -rf .* * \
 
+# check gets stuck with openmpi
+# && make check \
 # test is really slow
 # && make test \
-
