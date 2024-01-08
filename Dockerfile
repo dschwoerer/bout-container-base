@@ -5,7 +5,7 @@ ARG TYPE=minimal
 ARG PETSC_VERSION=3.16.4
 ARG OPENMP=1
 
-RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf && rm /etc/yum.repos.d/*modular*
+RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
