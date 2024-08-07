@@ -57,7 +57,7 @@ jobs:
             MPI=${{ matrix.mpi }}
             TYPE=${{ matrix.type }}
             OPENMP=${{ matrix.config.openmp }}
-            PETSC_VERSION=3.19.6
+            PETSC_VERSION=3.21.4
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
