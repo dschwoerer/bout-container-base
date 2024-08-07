@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora:latest
 
 ARG MPI=mpich
 ARG TYPE=minimal
-ARG PETSC_VERSION=3.19.6
+ARG PETSC_VERSION=3.21.4
 ARG OPENMP=1
 
 RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
@@ -45,8 +45,8 @@ ENV PATH=$MPI_BIN:$PATH \
 
 
 # PETSc
-RUN VER=$PETSC_VERSION && curl https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-lite-$VER.tar.gz > petsc-lite-$VER.tar.gz \
- && tar -xf petsc-lite-$VER.tar.gz \
+RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-$VER.tar.gz > petsc-$VER.tar.gz \
+ && tar -xf petsc-$VER.tar.gz \
  && sudo mkdir -p  /opt/petsc && sudo chown boutuser /opt/petsc \
  && cd petsc-$VER/ \
  && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
