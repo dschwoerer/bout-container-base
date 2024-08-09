@@ -63,4 +63,4 @@ RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/
 # check gets stuck with openmpi
 # && make check \
 # test is really slow
-# && make test \
+# && make test
