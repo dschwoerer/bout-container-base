@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora:latest
 
 ARG MPI=mpich
 ARG TYPE=minimal
-ARG PETSC_VERSION=3.21.4
+ARG PETSC_VERSION=3.23.3
 ARG OPENMP=1
 
 RUN test ".$TYPE" != ".mini" || echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
