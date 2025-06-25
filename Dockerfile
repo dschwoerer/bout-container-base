@@ -53,6 +53,7 @@ RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/
     --download-mumps=1 --download-scalapack=1 --download-blacs=1 --download-fblas-lapack=1 --download-hypre=1 \
     --download-parmetis=1 --download-ptscotch=1 --download-metis=1 --with-openmp=$OPENMP --with-debugging=0 --prefix=/opt/petsc \
     --with-python-exec=/usr/bin/python3 --with-mpi-dir=/usr/lib64/$MPI --with-blas-lib=flexiblas --with-lapack-lib=flexiblas \
+    CFLAGS="--std=c17 -Wno-implicit-function-declaration" \
     || (echo -e '\n\n\==== START CONFIGURE.LOG ====\n\n' ; cat configure.log ; echo -e '\n\n==== END CONFIGURE.LOG ====\n\n' ;exit 1) \
  && make all \
  && make install \
