@@ -8,12 +8,10 @@ RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf && \
     time dnf5 copr enable -y davidsch/fixes4bout ; \
     time dnf5 -y upgrade && \
     time dnf5 -y builddep bout++ && \
-    time dnf5 clean all && \
-    useradd test
+    time dnf5 clean all
 
-RUN useradd test -G wheel -p '$6$MoHfQDiMU5ajgDMm$9FAMLxMflKwQCZ.sJBNG6wLGnPeySVizdA8wN0k8LSXKPkCfOb/sM9Y4jKFvh5rzKSwLtYSTzvJyETqrFlxBV.'
-
-RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd test -G wheel -p '$6$MoHfQDiMU5ajgDMm$9FAMLxMflKwQCZ.sJBNG6wLGnPeySVizdA8wN0k8LSXKPkCfOb/sM9Y4jKFvh5rzKSwLtYSTzvJyETqrFlxBV.' \
+    && echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # user: boutuser
 # password: boutforever
