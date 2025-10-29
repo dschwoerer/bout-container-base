@@ -52,7 +52,7 @@ ENV PATH=$MPI_BIN:$PATH \
 # PETSc
 RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-$VER.tar.gz > petsc-$VER.tar.gz \
  && tar -xf petsc-$VER.tar.gz \
- && sudo mkdir -p  /opt/petsc && sudo chown boutuser /opt/petsc \
+ && sudo mkdir -p  /usr/local && sudo chown boutuser /usr/local \
  && cd petsc-$VER/ \
  && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
     --download-mumps=1 --download-scalapack=1 --download-blacs=1 --download-fblas-lapack=1 --download-hypre=1 \
@@ -62,9 +62,9 @@ RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/
     || (echo -e '\n\n\==== START CONFIGURE.LOG ====\n\n' ; cat configure.log ; echo -e '\n\n==== END CONFIGURE.LOG ====\n\n' ;exit 1) \
  && make all \
  && make install \
- && find /opt -name *.a -delete \
- && (test ".$TYPE" != ".mini" || rm -rf /opt/petsc/share/petsc/examples ) \
- && sudo chown root -R /opt/petsc \
+ && find /usr/local -name *.a -delete \
+ && (test ".$TYPE" != ".mini" || rm -rf /usr/local/share/petsc/examples ) \
+ && sudo chown root -R /usr/local \
  && cd .. && rm -rf .* * \
 
 # check gets stuck with openmpi
