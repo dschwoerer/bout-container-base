@@ -53,6 +53,7 @@ ENV PATH=$MPI_BIN:$PATH \
 RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-$VER.tar.gz > petsc-$VER.tar.gz \
  && tar -xf petsc-$VER.tar.gz \
  && sudo mkdir -p  /usr/local \
+ && sudo chown -R boutuser /usr/local \
  && cd petsc-$VER/ \
  && /usr/bin/python3 ./configure --with-mpi=yes --with-shared-libraries --with-precision=double --with-scalar-type=real \
     --download-mumps=1 --download-scalapack=1 --download-blacs=1 --download-fblas-lapack=1 --download-hypre=1 \
@@ -61,10 +62,11 @@ RUN VER=$PETSC_VERSION && curl https://web.cels.anl.gov/projects/petsc/download/
     CFLAGS="--std=c17 -Wno-implicit-function-declaration" \
     || (echo -e '\n\n\==== START CONFIGURE.LOG ====\n\n' ; cat configure.log ; echo -e '\n\n==== END CONFIGURE.LOG ====\n\n' ;exit 1) \
  && make all \
- && sudo make install \
- && sudo find /usr/local -name *.a -delete \
- && (test ".$TYPE" != ".mini" || sudo rm -rf /usr/local/share/petsc/examples ) \
- && cd .. && rm -rf .* * \
+ && make install \
+ && find /usr/local -name *.a -delete \
+ && rm -rf /usr/local/share/petsc/examples \
+ && sudo chown root -R /usr/local \
+ && cd .. && rm -rf .* *
 
 # check gets stuck with openmpi
 # && make check \
