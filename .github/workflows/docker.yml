@@ -22,16 +22,7 @@ jobs:
 
     strategy:
       fail-fast: true
-      matrix:
-        mpi: [mpich, openmpi]
-        type: [full, mini]
-        config:
-          - name: "With openmp"
-            openmp: 1
-            prefix: "openmp-"
-          - name: "Without openmp"
-            openmp: 0
-            prefix: ""
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -49,7 +40,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
-            prefix=${{ matrix.mpi }}-${{ matrix.config.prefix }}${{ matrix.type }}-
+            prefix=ci-fedora
 
       - name: Build and push Docker image
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83
