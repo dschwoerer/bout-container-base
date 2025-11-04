@@ -22,6 +22,7 @@ RUN git clone https://github.com/boutproject/BOUT-dev && \
     cd BOUT-dev && \
     git checkout next && \
     sh .ci_fedora.sh openmpi && \
+    git clean -xfd && \
     sed -i tests/integrated/CMakeLists.txt -e /communications/d && \
     sh .ci_fedora.sh mpich && \
     git checkout -- tests && \
