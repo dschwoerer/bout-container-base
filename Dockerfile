@@ -21,5 +21,6 @@ WORKDIR /home/test
 RUN git clone https://github.com/boutproject/BOUT-dev && \
     cd BOUT-dev && \
     git checkout next && \
-    sh .ci_fedora.sh && \
+    sh .ci_fedora.sh mpich && \
+    sh .ci_fedora.sh openmpi && \
     cd .. && rm -rf BOUT-dev
