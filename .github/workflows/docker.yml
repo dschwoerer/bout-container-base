@@ -49,5 +49,6 @@ jobs:
             OPENMP=${{ matrix.config.openmp }}
           context: .
           push: true
+          shm-size: '256M'
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
