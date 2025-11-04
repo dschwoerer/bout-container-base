@@ -17,3 +17,9 @@ RUN useradd test -G wheel -p '$6$MoHfQDiMU5ajgDMm$9FAMLxMflKwQCZ.sJBNG6wLGnPeySV
 # password: boutforever
 USER test
 WORKDIR /home/test
+
+RUN git clone https://github.com/boutproject/BOUT-dev && \
+    cd BOUT-dev && \
+    git checkout next && \
+    sh .ci_fedora.sh && \
+    cd .. && rm -rf BOUT-dev
