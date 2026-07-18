@@ -4,7 +4,10 @@ RUN echo "install_weak_deps=False" >> /etc/dnf/dnf.conf && \
     echo "minrate=10M" >> /etc/dnf/dnf.conf && \
     export FORCE_COLUMNS=200 && \
     rpm -q dnf5 || (time dnf -y install dnf5 ; time dnf clean all ) && \
-    time dnf5 -y install dnf5-plugins cmake python3-zoidberg python3-natsort python3-boututils git-core wget python3-pytest python3-pytest-xdist && \
+    time dnf5 -y install dnf5-plugins cmake git-core wget python3-pytest python3-pytest-xdist && \
+    wget https://github.com/boutproject/BOUT-dev/raw/refs/heads/next/requirements.txt && \
+    time dnf5 -y install $(for f in $(grep -o '^[^=><]*' requirements.txt  | tr '[:upper:]' '[:lower:]' ) ;  do echo "python3dist($f)"  ; done) && \
+    rm requirements.txt && \
     time dnf5 copr enable -y davidsch/fixes4bout && \
     time dnf5 -y upgrade && \
     time dnf5 -y builddep bout++ && \
@@ -19,7 +22,7 @@ RUN useradd test -G wheel -p '$6$MoHfQDiMU5ajgDMm$9FAMLxMflKwQCZ.sJBNG6wLGnPeySV
 USER test
 WORKDIR /home/test
 
-RUN git clone https://github.com/boutproject/BOUT-dev && \
+RUN git clone https://github.com/boutproject/BOUT-dev --depth 1 && \
     cd BOUT-dev && \
     git checkout next && \
     sed -i .ci_fedora.sh -e '/cp -a \/tmp/d' && \
