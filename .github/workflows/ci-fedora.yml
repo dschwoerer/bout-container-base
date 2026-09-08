@@ -49,6 +49,6 @@ jobs:
             OPENMP=${{ matrix.config.openmp }}
           context: ci-fedora/
           push: true
-          shm-size: '256M'
+          shm-size: '512M'
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
